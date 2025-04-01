@@ -102,7 +102,7 @@ async def echo(websocket: ServerConnection):
                 # Decode the message from the client and override the workspace folder
                 decoded = json.loads(message)
                 if decoded.get("method") == "initialize":
-                    workspace_folder = f"file://{jwt_decoded.get("workspace")}"
+                    workspace_folder = f"file://{jwt_decoded.get('workspace')}"
                     decoded["params"]["rootPath"] = workspace_folder
                     decoded["params"]["rootUri"] = workspace_folder
                     decoded["params"]["workspaceFolders"] = [

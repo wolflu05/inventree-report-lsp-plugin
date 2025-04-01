@@ -45,7 +45,7 @@ setuptools.setup(
     python_requires=">=3.9",
     entry_points={
         "inventree_plugins": [
-            "reporteditor = report_editor.core:reporteditor"
+            "reporteditor = report_editor.core:ReportEditor"
         ],
         "console_scripts": [
             "inventree-report-editor-lsp=report_editor.lsp.server:cli"

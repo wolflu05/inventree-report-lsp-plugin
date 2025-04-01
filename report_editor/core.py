@@ -13,8 +13,8 @@ from plugin.mixins import UserInterfaceMixin, UrlsMixin
 from . import PLUGIN_VERSION
 
 
-class reporteditor(UserInterfaceMixin, UrlsMixin, InvenTreePlugin):
-    """reporteditor - custom InvenTree plugin."""
+class ReportEditor(UserInterfaceMixin, UrlsMixin, InvenTreePlugin):
+    """ReportEditor - custom InvenTree plugin."""
 
     # Plugin metadata
     TITLE = "report editor"
@@ -46,7 +46,7 @@ class reporteditor(UserInterfaceMixin, UrlsMixin, InvenTreePlugin):
         ]
 
     def _generate_lsp_token(self, request: Request) -> str:
-        if not (request.user and request.user.is_authenticated and request.user.is_staff): 
+        if not (request.user and request.user.is_authenticated and request.user.is_staff):
             return ""
 
         return jwt.encode({

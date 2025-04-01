@@ -58,8 +58,7 @@ def collect_inventree_data(collector):
     collector.templates = {
         name: value
         for name, value in collector.templates.items()
-        if (name.startswith("report/") or name.startswith("label/"))
-        and name.endswith("_base.html")
+        if (name.startswith("report/") or name.startswith("label/")) and name.endswith("_base.html")
     }
 
     # Add the base template for each report and label with its context for each model
@@ -72,7 +71,7 @@ def collect_inventree_data(collector):
 
         for type_, context in [("label", label_context), ("report", report_context)]:
             collector.templates[f"_base/{type_}/{model_key}.html"] = {
-                "path":"",
+                "path": "",
                 "extends": None,
                 "blocks": [],
                 "context": {
