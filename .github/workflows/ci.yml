@@ -78,7 +78,7 @@ jobs:
           path: report_editor/static/dist
 
   publish:
-    # if: github.event_name == 'release' && github.event.action == 'published'
+    if: github.event_name == 'release' && github.event.action == 'published'
     needs: [style-python, build-js]
     name: 📦 Publish to PyPi
     runs-on: ubuntu-latest
