@@ -100,7 +100,8 @@ async def echo(websocket: ServerConnection):
             print("Error: ", line.decode())
 
     async def read_client():
-        if not proc.stdin: return
+        if not proc.stdin:
+            return
 
         async for message in websocket:
             try:
