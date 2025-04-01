@@ -21,7 +21,7 @@ with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name="report_editor",
+    name="inventree-report-editor-plugin",
     version=report_editor.PLUGIN_VERSION,
     author="wolflu05",
     author_email="76838159+wolflu05@users.noreply.github.com",
@@ -29,11 +29,14 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url="https://github.com/wolflu05/inventree-report-editor-plugin",
-    license="MIT",
+    license="GPL-3.0",
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=[
         # Enter your plugin library dependencies here
+        "websockets==15.0.1",
+        "pyjwt==2.10.1",
+        "django-template-lsp@git+https://github.com/wolflu05/django-template-lsp@variable-docs#egg=django-template-lsp",
     ],
     setup_requires=[
         "wheel",
@@ -43,6 +46,9 @@ setuptools.setup(
     entry_points={
         "inventree_plugins": [
             "reporteditor = report_editor.core:reporteditor"
-        ]
+        ],
+        "console_scripts": [
+            "inventree-report-editor-lsp=report_editor.lsp.server:cli"
+        ],
     },
 )
