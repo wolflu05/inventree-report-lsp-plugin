@@ -3,7 +3,7 @@
 [![License: GPL3](https://img.shields.io/badge/License-GPLv3-yellow.svg)](https://opensource.org/license/gpl-3-0)
 ![CI](https://github.com/wolflu05/inventree-report-editor-plugin/actions/workflows/ci.yml/badge.svg)
 
-A report editor plugins that is powered by an LSP
+A report editor plugin that is powered by [django-template-lsp](https://github.com/fourdigit/django-template-lsp).
 
 ![Screenshot](https://github.com/user-attachments/assets/4acfc96f-878b-42aa-8c40-d7e8b29f89a0)
 
