@@ -78,7 +78,7 @@ jobs:
           path: report_editor/static/dist
 
   publish:
-    if: github.event_name == 'release' && github.event.action == 'published'
+    # if: github.event_name == 'release' && github.event.action == 'published'
     needs: [style-python, build-js]
     name: 📦 Publish to PyPi
     runs-on: ubuntu-latest
@@ -110,4 +110,4 @@ jobs:
         run: python3 -m build
 
       - name: Publish package to PyPI
-        uses: pypa/gh-action-pypi-publish@f8c70e705ffc13c3b4d1221169b84f12a75d6ca8 # pin@v1.8.8
+        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc # pin@v1.12.4
