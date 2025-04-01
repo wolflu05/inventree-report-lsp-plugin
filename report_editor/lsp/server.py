@@ -4,7 +4,7 @@ import jwt
 import os
 import sys
 import json
-from urllib.parse import urlparse, parse_qs 
+from urllib.parse import urlparse, parse_qs
 from websockets import serve, ServerConnection
 import djlsp
 
@@ -48,7 +48,8 @@ SECRET_KEY = get_secret_key()
 
 async def echo(websocket: ServerConnection):
     # Validate the auth token
-    if not websocket.request: return
+    if not websocket.request:
+        return
     parsed_url = urlparse(websocket.request.path)
     query = parse_qs(parsed_url.query)
     token = query.get("token", [""])[0]
@@ -71,12 +72,14 @@ async def echo(websocket: ServerConnection):
     )
 
     async def read_output():
-        if not proc.stdout: return
+        if not proc.stdout:
+            return
 
         content_len = None
         while True:
             line = await proc.stdout.readline()
-            if not line: break
+            if not line:
+                break
             
             line = line.decode()
             if line.startswith("Content-Length: "):
@@ -87,12 +90,14 @@ async def echo(websocket: ServerConnection):
                 content_len = None
 
     async def read_error():
-        if not proc.stderr: return
+        if not proc.stderr:
+            return
 
         while True:
             line = await proc.stderr.readline()
-            if not line: break
-            print("Error: ", line)
+            if not line:
+                break
+            print("Error: ", line.decode())
 
     async def read_client():
         if not proc.stdin: return
@@ -129,13 +134,16 @@ async def echo(websocket: ServerConnection):
 
     print(f"Client disconnected {websocket.id}")
 
+
 async def main():
     async with serve(echo, "0.0.0.0", 8765) as server:
         print("Django Template LSP Server started on ws://0.0.0.0:8765")
         await server.serve_forever()
 
+
 def cli():
     asyncio.run(main())
+
 
 if __name__ == "__main__":
     cli()
