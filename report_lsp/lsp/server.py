@@ -54,19 +54,17 @@ async def echo(websocket: ServerConnection):
     query = parse_qs(parsed_url.query)
     token = query.get("token", [""])[0]
     try:
-        jwt_decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-    except (jwt.exceptions.DecodeError, jwt.exceptions.ExpiredSignatureError):
+        jwt_decoded = jwt.decode(token, SECRET_KEY, issuer="urn:inventree-report-lsp", algorithms=["HS256"])
+    except Exception as e:
         await websocket.close(code=3000, reason="Missing or invalid token")
-        print(f"Unauthorized {websocket.id}. Connection closed.")
+        print(f"Unauthorized {websocket.id}. Connection closed. ({e.__class__.__name__})")
         return
 
     print(f"Client connected {websocket.id}")
 
     proc = await asyncio.create_subprocess_exec(
-        # "djlsp",
-        "/Users/wolflu/Development/1_GITHUB/django-template-lsp/env/bin/djlsp",
+        "djlsp",
         "--cache",
-        "--enable-log",
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,

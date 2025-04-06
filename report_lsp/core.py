@@ -50,6 +50,7 @@ class ReportEditor(UserInterfaceMixin, UrlsMixin, InvenTreePlugin):
             return ""
 
         return jwt.encode({
+            "iss": "urn:inventree-report-lsp",
             "user": request.user.id,
             "workspace": settings.BASE_DIR.absolute().as_posix(),
             "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
