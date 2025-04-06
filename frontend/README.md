@@ -19,7 +19,7 @@ This project uses [Vite](https://vitejs.dev/) as the build tool. We followed [th
 
 ### Building
 
-*Note: Assumed you are already in the `frontend` directory.*
+_Note: Assumed you are already in the `frontend` directory._
 
 To compile the frontend code, run:
 
@@ -27,7 +27,7 @@ To compile the frontend code, run:
 npm run build --emptyOutDir
 ```
 
-This will compile the frontend into the `../report_editor/static` directory (ready for distribution).
+This will compile the frontend into the `../report_lsp/static` directory (ready for distribution).
 
 Note: The target directory is intentionally outside of the frontend directory, so that the compiled files are correctly bundled into the python package install.
 

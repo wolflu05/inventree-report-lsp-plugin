@@ -12,23 +12,23 @@ import setuptools
 """
 
 """Read the plugin version from the source code."""
-module_path = os.path.join(os.path.dirname(__file__), "report_editor", "__init__.py")
-spec = importlib.util.spec_from_file_location("report_editor", module_path)
-report_editor = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(report_editor)
+module_path = os.path.join(os.path.dirname(__file__), "report_lsp", "__init__.py")
+spec = importlib.util.spec_from_file_location("report_lsp", module_path)
+report_lsp = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(report_lsp)
 
 with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name="inventree-report-editor-plugin",
-    version=report_editor.PLUGIN_VERSION,
+    name="inventree-report-lsp-plugin",
+    version=report_lsp.PLUGIN_VERSION,
     author="wolflu05",
     author_email="76838159+wolflu05@users.noreply.github.com",
     description="A report editor plugin that is powered by an LSP",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/wolflu05/inventree-report-editor-plugin",
+    url="https://github.com/wolflu05/inventree-report-lsp-plugin",
     license="GPL-3.0",
     packages=setuptools.find_packages(),
     include_package_data=True,
@@ -36,7 +36,7 @@ setuptools.setup(
         # Enter your plugin library dependencies here
         "websockets==15.0.1",
         "pyjwt==2.10.1",
-        "django-template-lsp@git+https://github.com/wolflu05/django-template-lsp@variable-docs#egg=django-template-lsp",
+        "django-template-lsp@git+https://github.com/fourdigits/django-template-lsp@main#egg=django-template-lsp",
     ],
     setup_requires=[
         "wheel",
@@ -45,10 +45,10 @@ setuptools.setup(
     python_requires=">=3.9",
     entry_points={
         "inventree_plugins": [
-            "reporteditor = report_editor.core:ReportEditor"
+            "reporteditor = report_lsp.core:ReportEditor"
         ],
         "console_scripts": [
-            "inventree-report-editor-lsp=report_editor.lsp.server:cli"
+            "inventree-report-lsp=report_lsp.lsp.server:cli"
         ],
     },
 )

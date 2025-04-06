@@ -18,7 +18,7 @@ export default defineConfig({
       preserveEntrySignatures: "exports-only",
       input: ["./src/report-editor.tsx"],
       output: {
-        dir: "../report_editor/static/dist",
+        dir: "../report_lsp/static/dist",
         entryFileNames: "[name].js",
         assetFileNames: "assets/[name].[ext]",
       },

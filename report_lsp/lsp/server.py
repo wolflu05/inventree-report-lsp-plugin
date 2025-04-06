@@ -19,7 +19,7 @@ if not any("collect_inventree_data" in line for line in collector_code):
     for line in collector_code:
         new_lines.append(line)
         if "collector.collect()" in line:
-            new_lines.append("    from report_editor.custom_collector import collect_inventree_data\n")
+            new_lines.append("    from report_lsp.custom_collector import collect_inventree_data\n")
             new_lines.append("    collect_inventree_data(collector)\n")
     with open(collector_path, "w") as f:
         f.writelines(new_lines)
@@ -63,7 +63,8 @@ async def echo(websocket: ServerConnection):
     print(f"Client connected {websocket.id}")
 
     proc = await asyncio.create_subprocess_exec(
-        "djlsp",
+        # "djlsp",
+        "/Users/wolflu/Development/1_GITHUB/django-template-lsp/env/bin/djlsp",
         "--cache",
         "--enable-log",
         stdin=asyncio.subprocess.PIPE,
@@ -77,14 +78,19 @@ async def echo(websocket: ServerConnection):
 
         content_len = None
         while True:
-            line = await proc.stdout.readline()
-            if not line:
-                break
-            
+            try:
+                line = await proc.stdout.readline()
+                if not line:
+                    break
+            except:
+                print("Error reading from process stdout")
+                continue
+
             line = line.decode()
             if line.startswith("Content-Length: "):
                 content_len = int(line.split(": ")[1])
             elif line == "\r\n" and content_len is not None:
+                print("Content-Length: ", content_len)
                 content = (await proc.stdout.read(content_len)).decode()
                 await websocket.send(content)
                 content_len = None

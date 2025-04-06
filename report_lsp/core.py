@@ -17,31 +17,31 @@ class ReportEditor(UserInterfaceMixin, UrlsMixin, InvenTreePlugin):
     """ReportEditor - custom InvenTree plugin."""
 
     # Plugin metadata
-    TITLE = "report editor"
-    NAME = "reporteditor"
-    SLUG = "report-editor"
+    TITLE = "report lsp"
+    NAME = "Report LSP"
+    SLUG = "report-lsp"
     DESCRIPTION = "A report editor plugin that is powered by an LSP"
     VERSION = PLUGIN_VERSION
 
     # Additional project information
     AUTHOR = "wolflu05"
-    WEBSITE = "https://github.com/wolflu05/inventree-report-editor-plugin"
+    WEBSITE = "https://github.com/wolflu05/inventree-report-lsp-plugin"
     LICENSE = "GPL-3.0"
 
     # Optionally specify supported InvenTree versions
-    MIN_VERSION = '0.17.10'
+    MIN_VERSION = '0.18.0'
     # MAX_VERSION = '2.0.0'
 
     def get_ui_template_editors(self, request, context, **kwargs):
         return [
             {
-                'key': 'report-editor',
-                'title': 'Report Editor',
+                'key': 'report-lsp',
+                'title': 'Report LSP',
                 'icon': 'ti:brand-vscode:outline',
                 'context': {
                     "lspToken": self._generate_lsp_token(request),
                 },
-                'source': self.plugin_static_file('report-editor.dev.js:getReportEditor' if os.environ.get('INVENTREE_REPORT_EDITOR_DEV', False) else 'dist/report-editor.js:getReportEditor'),
+                'source': self.plugin_static_file('report-editor.dev.js:getReportEditor' if os.environ.get('INVENTREE_REPORT_LSP_DEV', False) else 'dist/report-editor.js:getReportEditor'),
             }
         ]
 

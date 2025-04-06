@@ -1,1 +1,1 @@
-recursive-include report_editor/static *
+recursive-include report_lsp/static *
