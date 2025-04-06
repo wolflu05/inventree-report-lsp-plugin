@@ -1,4 +1,4 @@
-# Report Editor
+# Report LSP Editor
 
 [![License: GPL3](https://img.shields.io/badge/License-GPLv3-yellow.svg)](https://opensource.org/license/gpl-3-0)
 ![CI](https://github.com/wolflu05/inventree-report-lsp-plugin/actions/workflows/ci.yml/badge.svg)

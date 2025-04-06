@@ -82,15 +82,14 @@ async def echo(websocket: ServerConnection):
                 line = await proc.stdout.readline()
                 if not line:
                     break
-            except:
-                print("Error reading from process stdout")
+            except Exception as e:
+                print("Error reading from process stdout", e)
                 continue
 
             line = line.decode()
             if line.startswith("Content-Length: "):
                 content_len = int(line.split(": ")[1])
             elif line == "\r\n" and content_len is not None:
-                print("Content-Length: ", content_len)
                 content = (await proc.stdout.read(content_len)).decode()
                 await websocket.send(content)
                 content_len = None
