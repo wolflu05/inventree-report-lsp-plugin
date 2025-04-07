@@ -9,7 +9,7 @@ A report editor plugin that is powered by [django-template-lsp](https://github.c
 
 ## ⚙️ Installation
 
-1. Install the `inventree-report-lsp-plugin` from the Admin Center > Plugins > Install plugin.
+1. Install the `inventree-report-lsp-plugin` from the Admin Center > Plugins > Install plugin. (Make sure the user interface plugin integration is enabled.)
 2. Now the LSP server needs to be started separately via the `inventree-report-lsp` cmd and the requests to `/plugins/report-lsp/ws` need to be proxied to it. If you're using the official docker stack, follow the guide below:
 
 > [!IMPORTANT]
