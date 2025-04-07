@@ -12,6 +12,9 @@ A report editor plugin that is powered by [django-template-lsp](https://github.c
 1. Install the `inventree-report-lsp-plugin` from the Admin Center > Plugins > Install plugin.
 2. Now the LSP server needs to be started separately via the `inventree-report-lsp` cmd and the requests to `/plugins/report-lsp/ws` need to be proxied to it. If you're using the official docker stack, follow the guide below:
 
+> [!IMPORTANT]
+> At least InvenTree v0.18.0 is required to use this plugin.
+
 ### 🐳 Docker
 
 Add this extra container to the `docker-compose.yml` file:
@@ -41,9 +44,6 @@ Add this `proxy_route` to the `Caddyfile`:
          # All other requests are proxied to the InvenTree server
          reverse_proxy {$INVENTREE_SERVER:"http://inventree-server:8000"} {
 ```
-
-> [!IMPORTANT]
-> At least InvenTree v0.18.0 is required to use this plugin.
 
 ## 🏃 Usage
 
