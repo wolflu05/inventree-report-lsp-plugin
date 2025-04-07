@@ -9,16 +9,45 @@ A report editor plugin that is powered by [django-template-lsp](https://github.c
 
 ## ⚙️ Installation
 
-Install the `inventree-report-lsp-plugin` from the Admin Center.
+1. Install the `inventree-report-lsp-plugin` from the Admin Center > Plugins > Install plugin.
+2. Now the LSP server needs to be started separately via the `inventree-report-lsp` cmd and the requests to `/plugins/report-lsp/ws` need to be proxied to it. If you're using the official docker stack, follow the guide below:
 
-Start the LSP server. TODO add docker guide with setup and required Caddy changes.
+### 🐳 Docker
+
+Add this extra container to the `docker-compose.yml` file:
+
+```yml
+    inventree-report-lsp:
+        image: inventree/inventree:${INVENTREE_TAG:-stable}
+        container_name: inventree-report-lsp
+        command: /bin/ash -c "invoke plugins && inventree-report-lsp"
+        env_file:
+            - .env
+        volumes:
+            - ${INVENTREE_EXT_VOLUME}:/home/inventree/data:z
+        restart: unless-stopped
+```
+
+Add this `proxy_route` to the `Caddyfile`:
+
+```diff
+                 forward_auth {$INVENTREE_SERVER:"http://inventree-server:8000"} {
+                         uri /auth/
+                 }
+         }
+ 
++        reverse_proxy /plugin/report-lsp/ws "http://inventree-report-lsp:8765"
+ 
+         # All other requests are proxied to the InvenTree server
+         reverse_proxy {$INVENTREE_SERVER:"http://inventree-server:8000"} {
+```
 
 > [!IMPORTANT]
 > At least InvenTree v0.18.0 is required to use this plugin.
 
 ## 🏃 Usage
 
-Goto the Admin Center > Label Templates or Report Templates. Click on any in the table and select the "Report Editor". For the first load, this can take some time (up to ~30s) until the data is collected.
+Goto the Admin Center > Label Templates or Report Templates. Click on any in the table and select the "Report Editor". For the first load, this can take some time (up to ~30s) until the data is collected. The status bar at the bottom should show `LSP Running (Connected)` when its ready.
 
 ## 🧑‍💻 Development
 
