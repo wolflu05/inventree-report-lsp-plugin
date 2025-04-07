@@ -44,6 +44,7 @@ def get_secret_key():
 
 
 SECRET_KEY = get_secret_key()
+processes = {}
 
 
 async def ws(websocket: ServerConnection):
@@ -60,7 +61,7 @@ async def ws(websocket: ServerConnection):
         print(f"Unauthorized {websocket.id}. Connection closed. ({e.__class__.__name__})")
         return
 
-    print(f"Client connected {websocket.id}")
+    print(f"Client connected {websocket.id} (Now {len(processes) + 1} connections)")
 
     proc = await asyncio.create_subprocess_exec(
         os.getenv("INVENTREE_DJANGO_LSP_SERVER_CMD", "djlsp"),
@@ -70,6 +71,7 @@ async def ws(websocket: ServerConnection):
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
+    processes[websocket.id] = proc
 
     async def read_output():
         if not proc.stdout:
@@ -136,8 +138,9 @@ async def ws(websocket: ServerConnection):
     if proc.returncode is None:
         proc.terminate()
     await proc.wait()
+    del processes[websocket.id]
 
-    print(f"Client disconnected {websocket.id}")
+    print(f"Client disconnected {websocket.id} (Now {len(processes)} connections)")
 
 
 async def main():
