@@ -21,7 +21,8 @@
     "@typefox/monaco-editor-react": "^6.6.0",
     "monaco-editor-wrapper": "^6.6.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@codingame/esbuild-import-meta-url-plugin": "^1.0.3",

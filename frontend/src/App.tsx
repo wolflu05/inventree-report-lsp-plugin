@@ -10,19 +10,26 @@ import type { MonacoEditorLanguageClientWrapper, WrapperConfig } from 'monaco-ed
 import { MonacoEditorReactComp } from '@typefox/monaco-editor-react';
 import { configureDefaultWorkerFactory } from 'monaco-editor-wrapper/workers/workerLoaders';
 import djangoHtmlTmLanguageJson from './assets/django-html.tmLanguage.json?raw';
+import { LspState, useEditorState, type WebSocketState } from "./editorStore";
+import { StatusBar } from "./StatusBar";
 
 
 const extensionFiles = new Map<string, string | URL>();
 extensionFiles.set('./django-html.tmLanguage.json', djangoHtmlTmLanguageJson);
 
 const useWrapperConfig = ({ theme, lspToken }: { theme: "dark" | "light", lspToken: string }) => {
-  const ws = useRef<WebSocket>();
-
   const wrapperConfig: WrapperConfig = useMemo(() => {
-    ws.current = new WebSocket(`/plugin/report-editor/ws?token=${encodeURIComponent(lspToken)}`);
-    const iWebSocket = toSocket(ws.current);
+    const ws = new WebSocket(`/plugin/report-editor/ws?token=${encodeURIComponent(lspToken)}`);
+    const iWebSocket = toSocket(ws);
     const reader = new WebSocketMessageReader(iWebSocket);
     const writer = new WebSocketMessageWriter(iWebSocket);
+
+    useEditorState.setState({ ws, wsState: ws.readyState as WebSocketState, lspState: LspState.Starting });
+    const updateWsState = () => {
+      useEditorState.setState({ wsState: ws.readyState as WebSocketState });
+    }
+    ws.addEventListener("open", updateWsState);
+    ws.addEventListener("close", updateWsState);
 
     return {
       $type: 'extended',
@@ -47,15 +54,16 @@ const useWrapperConfig = ({ theme, lspToken }: { theme: "dark" | "light", lspTok
             connection: {
               options: {
                 $type: "WebSocketDirect",
-                webSocket: ws.current,
+                webSocket: ws,
                 startOptions: {
                   reportStatus: true,
                   onCall: (languageClient) => {
-                    console.log("languageclient initialized", languageClient);
-                    // setState(languageClient?.state ?? LspState.Stopped);
-                    // languageClient?.onDidChangeState(e => {
-                    //   // setState(e.newState);
-                    // })
+                    if (!languageClient) return;
+
+                    useEditorState.setState({ lspState: languageClient.state });
+                    languageClient.onDidChangeState(e => {
+                      useEditorState.setState({ lspState: e.newState });
+                    });
                   }
                 }
               },
@@ -88,7 +96,7 @@ const useWrapperConfig = ({ theme, lspToken }: { theme: "dark" | "light", lspTok
     }
   }, [lspToken, theme]);
 
-  return { ws, wrapperConfig };
+  return wrapperConfig;
 };
 
 export default function App({ params }: { params: Parameters<GetFeatureType>[0] }) {
@@ -99,7 +107,7 @@ export default function App({ params }: { params: Parameters<GetFeatureType>[0] 
   const hasRegisteredRef = useRef(false);
   const tempCodeRef = useRef<string>();
 
-  const { wrapperConfig } = useWrapperConfig({
+  const wrapperConfig = useWrapperConfig({
     theme: params.inventreeContext.colorScheme,
     lspToken: params.serverContext.lspToken,
   });
@@ -143,6 +151,7 @@ export default function App({ params }: { params: Parameters<GetFeatureType>[0] 
           console.error(error);
         }}
       />
+      <StatusBar />
     </div>
   );
 }

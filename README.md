@@ -14,7 +14,7 @@ Install the `inventree-report-lsp-plugin` from the Admin Center.
 Start the LSP server. TODO add docker guide with setup and required Caddy changes.
 
 > [!IMPORTANT]
-> At least InvenTree v0.17.10 is required to use this plugin.
+> At least InvenTree v0.18.0 is required to use this plugin.
 
 ## 🏃 Usage
 
@@ -66,5 +66,5 @@ For this plugin to work in development, the inventree source has to be patched t
    ```
 
 5. Install frontend dependencies via `cd frontend && npm ci`
-6. Run the LSP in the background by invoking the `inventree-report-lsp` command in a terminal where the venv is activated.
+6. Run the LSP in the background by invoking the `inventree-report-lsp` command in a terminal where the venv is activated. (If you want to use a custom djlsp instance because you want to do changes there, you need to specify the `INVENTREE_DJANGO_LSP_SERVER_CMD` env variable. E.g. `/path/to/django-template-lsp/env/bin/djlsp`)
 7. Run the Frontend dev server via `cd frontend && npm run dev`

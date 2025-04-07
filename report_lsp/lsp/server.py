@@ -46,7 +46,7 @@ def get_secret_key():
 SECRET_KEY = get_secret_key()
 
 
-async def echo(websocket: ServerConnection):
+async def ws(websocket: ServerConnection):
     # Validate the auth token
     if not websocket.request:
         return
@@ -63,8 +63,9 @@ async def echo(websocket: ServerConnection):
     print(f"Client connected {websocket.id}")
 
     proc = await asyncio.create_subprocess_exec(
-        "djlsp",
+        os.getenv("INVENTREE_DJANGO_LSP_SERVER_CMD", "djlsp"),
         "--cache",
+        *sys.argv[1:],
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
@@ -140,7 +141,7 @@ async def echo(websocket: ServerConnection):
 
 
 async def main():
-    async with serve(echo, "0.0.0.0", 8765) as server:
+    async with serve(ws, "0.0.0.0", 8765) as server:
         print("Django Template LSP Server started on ws://0.0.0.0:8765")
         await server.serve_forever()
 
