@@ -1,4 +1,4 @@
-import { getReportEditor } from "./report-editor.tsx";
+import { getReportEditor } from "./main.tsx";
 
 export const renderDebug = (ref: HTMLDivElement) => {
   getReportEditor({

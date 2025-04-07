@@ -19,7 +19,7 @@ extensionFiles.set('./django-html.tmLanguage.json', djangoHtmlTmLanguageJson);
 
 const useWrapperConfig = ({ theme, lspToken }: { theme: "dark" | "light", lspToken: string }) => {
   const wrapperConfig: WrapperConfig = useMemo(() => {
-    const ws = new WebSocket(`/plugin/report-editor/ws?token=${encodeURIComponent(lspToken)}`);
+    const ws = new WebSocket(`/plugin/report-lsp/ws?token=${encodeURIComponent(lspToken)}`);
     const iWebSocket = toSocket(ws);
     const reader = new WebSocketMessageReader(iWebSocket);
     const writer = new WebSocketMessageWriter(iWebSocket);

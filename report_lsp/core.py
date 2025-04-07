@@ -41,7 +41,7 @@ class ReportEditor(UserInterfaceMixin, UrlsMixin, InvenTreePlugin):
                 'context': {
                     "lspToken": self._generate_lsp_token(request),
                 },
-                'source': self.plugin_static_file('report-editor.dev.js:getReportEditor' if os.environ.get('INVENTREE_REPORT_LSP_DEV', False) else 'dist/report-editor.js:getReportEditor'),
+                'source': self.plugin_static_file('report-lsp.dev.js:getReportEditor' if os.environ.get('INVENTREE_REPORT_LSP_DEV', False) else 'dist/main.js:getReportEditor'),
             }
         ]
 

@@ -33,13 +33,13 @@ For this plugin to work in development, the inventree source has to be patched t
               changeOrigin: true,
               secure: true
             },
-   +        '/static/plugins/report-editor/dist/': {
+   +        '/static/plugins/report-lsp/dist/': {
    +          target: 'http://localhost:5212',
    +          changeOrigin: true,
    +          secure: true,
    +          ws: true
    +        },
-   +        "/plugin/report-editor/ws": {
+   +        "/plugin/report-lsp/ws": {
    +          target: "http://localhost:8765",
    +          changeOrigin: true,
    +          secure: true,

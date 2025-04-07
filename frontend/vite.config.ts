@@ -10,13 +10,13 @@ import importMetaUrlPlugin from "@codingame/esbuild-import-meta-url-plugin";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/static/plugins/report-editor/dist/",
+  base: "/static/plugins/report-lsp/dist/",
   build: {
     cssCodeSplit: false,
     manifest: false,
     rollupOptions: {
       preserveEntrySignatures: "exports-only",
-      input: ["./src/report-editor.tsx"],
+      input: ["./src/main.tsx"],
       output: {
         dir: "../report_lsp/static/dist",
         entryFileNames: "[name].js",
