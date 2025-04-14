@@ -36,7 +36,7 @@ setuptools.setup(
         # Enter your plugin library dependencies here
         "websockets==15.0.1",
         "pyjwt==2.10.1",
-        "django-template-lsp@git+https://github.com/fourdigits/django-template-lsp@main#egg=django-template-lsp",
+        "django-template-lsp==1.2.0",
     ],
     setup_requires=[
         "wheel",
