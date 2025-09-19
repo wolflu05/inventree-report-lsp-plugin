@@ -51,4 +51,9 @@ setuptools.setup(
             "inventree-report-lsp=report_lsp.lsp.server:cli"
         ],
     },
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",
+        "Framework :: InvenTree",
+    ],
 )
