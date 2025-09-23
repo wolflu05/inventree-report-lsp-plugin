@@ -2,7 +2,12 @@ from types import NoneType
 from typing import get_type_hints, get_args, get_origin
 from django.db import models
 from report.mixins import QuerySet
-from report.models import BaseContextExtension, ReportContextExtension, LabelContextExtension, ReportSnippet
+from report.models import (
+    BaseContextExtension,
+    ReportContextExtension,
+    LabelContextExtension,
+    ReportSnippet,
+)
 from report.helpers import report_model_types
 
 
@@ -17,11 +22,11 @@ def parse_docstring(docstring: str):
         if not stripped:
             continue
 
-        if stripped.endswith(':'):
-            current_section = stripped.rstrip(':')
+        if stripped.endswith(":"):
+            current_section = stripped.rstrip(":")
             sections[current_section] = {}
-        elif ':' in stripped and current_section:
-            name, doc = stripped.split(':', 1)
+        elif ":" in stripped and current_section:
+            name, doc = stripped.split(":", 1)
             sections[current_section][name.strip()] = doc.strip()
 
     return sections
@@ -47,10 +52,13 @@ def get_type_str(type_obj):
 def context_to_typedef(context_type):
     attr_docs = parse_docstring(context_type.__doc__).get("Attributes", {})
 
-    return {k: {
-        "type": get_type_str(v),
-        "docs": attr_docs.get(k, ""),
-    } for k, v in get_type_hints(context_type).items()}
+    return {
+        k: {
+            "type": get_type_str(v),
+            "docs": attr_docs.get(k, ""),
+        }
+        for k, v in get_type_hints(context_type).items()
+    }
 
 
 def collect_inventree_data(collector):
@@ -58,7 +66,8 @@ def collect_inventree_data(collector):
     collector.templates = {
         name: value
         for name, value in collector.templates.items()
-        if (name.startswith("report/") or name.startswith("label/")) and name.endswith("_base.html")
+        if (name.startswith("report/") or name.startswith("label/"))
+        and name.endswith("_base.html")
     }
 
     # Add the base template for each report and label with its context for each model
@@ -77,7 +86,9 @@ def collect_inventree_data(collector):
                 "context": {
                     **base_context,
                     **context,
-                    **context_to_typedef(get_type_hints(model.report_context).get("return")),
+                    **context_to_typedef(
+                        get_type_hints(model.report_context).get("return")
+                    ),
                 },
             }
 
