@@ -19,7 +19,9 @@ if not any("collect_inventree_data" in line for line in collector_code):
     for line in collector_code:
         new_lines.append(line)
         if "collector.collect()" in line:
-            new_lines.append("    from report_lsp.custom_collector import collect_inventree_data\n")
+            new_lines.append(
+                "    from report_lsp.custom_collector import collect_inventree_data\n"
+            )
             new_lines.append("    collect_inventree_data(collector)\n")
     with open(collector_path, "w") as f:
         f.writelines(new_lines)
@@ -30,14 +32,16 @@ if not any("collect_inventree_data" in line for line in collector_code):
 def get_secret_key():
     """Return the secret key value which will be used by django."""
     # Look for environment variable
-    if secret_key := os.environ.get('INVENTREE_SECRET_KEY'):
+    if secret_key := os.environ.get("INVENTREE_SECRET_KEY"):
         return secret_key
 
     # Look for secret key file
-    if secret_key_file := os.environ.get('INVENTREE_SECRET_KEY_FILE'):
+    if secret_key_file := os.environ.get("INVENTREE_SECRET_KEY_FILE"):
         secret_key_file = Path(secret_key_file).resolve()
     else:
-        print("INVENTREE_SECRET_KEY or INVENTREE_SECRET_KEY_FILE environment variables missing")
+        print(
+            "INVENTREE_SECRET_KEY or INVENTREE_SECRET_KEY_FILE environment variables missing"
+        )
         sys.exit(0)
 
     return secret_key_file.read_text().strip()
@@ -55,10 +59,14 @@ async def ws(websocket: ServerConnection):
     query = parse_qs(parsed_url.query)
     token = query.get("token", [""])[0]
     try:
-        jwt_decoded = jwt.decode(token, SECRET_KEY, issuer="urn:inventree-report-lsp", algorithms=["HS256"])
+        jwt_decoded = jwt.decode(
+            token, SECRET_KEY, issuer="urn:inventree-report-lsp", algorithms=["HS256"]
+        )
     except Exception as e:
         await websocket.close(code=3000, reason="Missing or invalid token")
-        print(f"Unauthorized {websocket.id}. Connection closed. ({e.__class__.__name__})")
+        print(
+            f"Unauthorized {websocket.id}. Connection closed. ({e.__class__.__name__})"
+        )
         return
 
     print(f"Client connected {websocket.id} (Now {len(processes) + 1} connections)")
