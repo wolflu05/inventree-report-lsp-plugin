@@ -23,7 +23,7 @@ Add this extra container to the `docker-compose.yml` file:
     inventree-report-lsp:
         image: inventree/inventree:${INVENTREE_TAG:-stable}
         container_name: inventree-report-lsp
-        command: /bin/ash -c "invoke plugins && inventree-report-lsp"
+        command: /bin/bash -c "invoke plugins && inventree-report-lsp"
         env_file:
             - .env
         volumes:
