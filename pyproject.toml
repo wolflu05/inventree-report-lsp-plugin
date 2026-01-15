@@ -22,7 +22,7 @@ dependencies = [
     # Enter your plugin library dependencies here
     "websockets==15.0.1",
     "pyjwt==2.10.1",
-    "django-template-lsp==1.2.0",
+    "django-template-lsp==1.2.2",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
